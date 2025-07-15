@@ -1,0 +1,49 @@
+#pragma once
+
+#include <Essentials/Position.hpp>
+#include <cstdint>
+#include <memory>
+#include <optional>
+#include <vector>
+
+namespace sw
+{
+	class Unit;
+
+	class Map final
+	{
+	public:
+		explicit Map(int32_t width, int32_t height);
+
+		Map(const Map&) = delete;
+		Map& operator=(const Map&) = delete;
+		Map(Map&&) noexcept = default;
+		Map& operator=(Map&&) noexcept = default;
+		~Map() = default;
+
+		int32_t getWidth() const
+		{
+			return _width;
+		}
+
+		int32_t getHeight() const
+		{
+			return _height;
+		}
+
+		void addUnit(const std::shared_ptr<Unit>& unit);
+		void removeUnit(const std::shared_ptr<Unit>& unit);
+		const std::shared_ptr<Unit>& unitAtPos(pos_t pos) const;
+		std::vector<std::shared_ptr<Unit>> getUnitsInRange(pos_t pos, int32_t rangeMin, int32_t rangeMax) const;
+		std::optional<pos_t> findNextStep(pos_t from, pos_t to) const;
+		void moveUnit(const std::shared_ptr<Unit>& unit, pos_t pos);
+
+	private:
+		std::shared_ptr<Unit>& mutableUnitAtPos(pos_t pos);
+		void verifyPosition(pos_t pos) const;
+
+		int32_t _width{};
+		int32_t _height{};
+		std::vector<std::shared_ptr<Unit>> _grid{};
+	};
+}

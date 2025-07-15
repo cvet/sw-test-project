@@ -576,3 +576,5 @@ FodyWeavers.xsd
 
 .DS_Store
 .idea
+/.vscode
+/build
