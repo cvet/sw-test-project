@@ -30,6 +30,13 @@ namespace sw
 	void Map::addUnit(const std::shared_ptr<Unit>& unit)
 	{
 		pos_t pos = unit->getPosition();
+
+		if (unitAtPos(pos))
+		{
+			throw std::runtime_error(
+				"Cannot add unit to occupied position: " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
+		}
+
 		verifyPosition(pos);
 		mutableUnitAtPos(pos) = unit;
 	}
@@ -137,7 +144,7 @@ namespace sw
 	{
 		verifyPosition(pos);
 
-		if (mutableUnitAtPos(pos))
+		if (unitAtPos(pos))
 		{
 			throw std::runtime_error(
 				"Cannot move unit to occupied position: " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
