@@ -13,26 +13,11 @@ namespace sw
 	class Unit : public std::enable_shared_from_this<Unit>
 	{
 	public:
-		explicit Unit(uint32_t id, pos_t position) :
-				_id(id),
-				_position(position)
-		{}
+		explicit Unit(uint32_t id, pos_t position);
 
-		uint32_t getId() const
-		{
-			return _id;
-		}
-
-		pos_t getPosition() const
-		{
-			return _position;
-		}
-
-		bool isActive() const
-		{
-			return _active;
-		}
-
+		uint32_t getId() const;
+		pos_t getPosition() const;
+		bool isActive() const;
 		template <typename T>
 		std::shared_ptr<T> getComponent() const;
 

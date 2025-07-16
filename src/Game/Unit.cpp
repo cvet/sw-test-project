@@ -2,6 +2,26 @@
 
 namespace sw
 {
+	Unit::Unit(uint32_t id, pos_t position) :
+			_id(id),
+			_position(position)
+	{}
+
+	uint32_t Unit::getId() const
+	{
+		return _id;
+	}
+
+	pos_t Unit::getPosition() const
+	{
+		return _position;
+	}
+
+	bool Unit::isActive() const
+	{
+		return _active;
+	}
+
 	void Unit::setPosition(pos_t position)
 	{
 		_position = position;

@@ -17,6 +17,16 @@ namespace sw
 		}
 	}
 
+	int32_t Map::getWidth() const
+	{
+		return _width;
+	}
+
+	int32_t Map::getHeight() const
+	{
+		return _height;
+	}
+
 	void Map::addUnit(const std::shared_ptr<Unit>& unit)
 	{
 		pos_t pos = unit->getPosition();

@@ -6,6 +6,11 @@
 
 namespace sw
 {
+	void MovementComponent::setTarget(pos_t target)
+	{
+		_moveTarget = target;
+	}
+
 	void MovementComponent::update(const std::shared_ptr<Unit>& self, GameContext& ctx)
 	{
 		if (!_moveTarget.has_value())

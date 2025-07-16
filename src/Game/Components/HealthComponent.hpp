@@ -8,24 +8,11 @@ namespace sw
 	class HealthComponent final : public Component
 	{
 	public:
-		HealthComponent(int32_t health) :
-				_health(health)
-		{}
+		HealthComponent(int32_t health);
 
-		int getHealth() const
-		{
-			return _health;
-		}
-
-		void damage(int amount)
-		{
-			_health -= amount;
-		}
-
-		bool isAlive() const
-		{
-			return _health > 0;
-		}
+		bool isAlive() const;
+		int getHealth() const;
+		void damage(int amount);
 
 	private:
 		int32_t _health{};

@@ -11,13 +11,11 @@ namespace sw
 	class MeleeAttackComponent final : public Component
 	{
 	public:
-		MeleeAttackComponent(int32_t strength) :
-				strength(strength)
-		{}
+		MeleeAttackComponent(int32_t strength);
 
 		void update(const std::shared_ptr<Unit>& self, GameContext& ctx) override;
 
 	private:
-		int32_t strength;
+		int32_t strength{};
 	};
 }

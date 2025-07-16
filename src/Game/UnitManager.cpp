@@ -6,7 +6,7 @@ namespace sw
 	void UnitManager::addUnit(const std::shared_ptr<Unit>& unit)
 	{
 		assert(std::ranges::find(_units, unit) == _units.end() && "Unit already exists in the units vector");
-		assert(_unitsMap.count(unit->getId()) == 0 && "Unit already exists in the map");
+		assert(!_unitsMap.contains(unit->getId()) && "Unit already exists in the map");
 
 		_units.emplace_back(unit);
 		_unitsMap.emplace(unit->getId(), unit);

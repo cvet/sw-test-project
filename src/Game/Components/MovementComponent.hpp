@@ -12,14 +12,12 @@ namespace sw
 	class MovementComponent final : public Component
 	{
 	public:
-		void setTarget(pos_t target)
-		{
-			_moveTarget = target;
-		}
+		MovementComponent() = default;
 
+		void setTarget(pos_t target);
 		void update(const std::shared_ptr<Unit>& self, GameContext& ctx) override;
 
 	private:
-		std::optional<pos_t> _moveTarget;
+		std::optional<pos_t> _moveTarget{};
 	};
 }

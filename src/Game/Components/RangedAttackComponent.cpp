@@ -1,10 +1,17 @@
 #include <Game/Components/HealthComponent.hpp>
 #include <Game/Components/RangedAttackComponent.hpp>
 #include <Game/GameContext.hpp>
+#include <Game/Unit.hpp>
 #include <IO/Events/UnitAttacked.hpp>
 
 namespace sw
 {
+	RangedAttackComponent::RangedAttackComponent(int32_t agility, int32_t rangeMin, int32_t rangeMax) :
+			_agility(agility),
+			_rangeMin(rangeMin),
+			_rangeMax(rangeMax)
+	{}
+
 	void RangedAttackComponent::update(const std::shared_ptr<Unit>& self, GameContext& ctx)
 	{
 		if (!ctx.map.getUnitsInRange(self->getPosition(), 1, 1).empty())

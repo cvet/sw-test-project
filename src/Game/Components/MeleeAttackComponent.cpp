@@ -7,6 +7,10 @@
 
 namespace sw
 {
+	MeleeAttackComponent::MeleeAttackComponent(int32_t strength) :
+			strength(strength)
+	{}
+
 	void MeleeAttackComponent::update(const std::shared_ptr<Unit>& self, GameContext& ctx)
 	{
 		auto targets = ctx.map.getUnitsInRange(self->getPosition(), 1, 1);

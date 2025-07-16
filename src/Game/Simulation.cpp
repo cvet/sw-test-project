@@ -90,6 +90,10 @@ namespace sw
 		{
 			throw std::runtime_error("Map not created before spawning units");
 		}
+		if (_unitManager.getUnitById(cmd.unitId))
+		{
+			throw std::runtime_error("Unit with ID " + std::to_string(cmd.unitId) + " already exists");
+		}
 
 		auto pos = pos_t{static_cast<int32_t>(cmd.x), static_cast<int32_t>(cmd.y)};
 		auto hp = static_cast<int32_t>(cmd.hp);
@@ -107,6 +111,10 @@ namespace sw
 		if (!_map)
 		{
 			throw std::runtime_error("Map not created before spawning units");
+		}
+		if (_unitManager.getUnitById(cmd.unitId))
+		{
+			throw std::runtime_error("Unit with ID " + std::to_string(cmd.unitId) + " already exists");
 		}
 
 		auto pos = pos_t{static_cast<int32_t>(cmd.x), static_cast<int32_t>(cmd.y)};
