@@ -11,8 +11,10 @@
 #include <IO/Events/UnitDied.hpp>
 #include <IO/Events/UnitSpawned.hpp>
 #include <IO/System/CommandParser.hpp>
-#include <IO/System/PrintDebug.hpp>
+#include <cassert>
 #include <cstdint>
+#include <ftxui/dom/elements.hpp>
+#include <ftxui/screen/screen.hpp>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -22,7 +24,7 @@ namespace sw
 {
 	void Simulation::process(std::ifstream& file)
 	{
-		std::cout << "Starting simulation...\n";
+		std::cout << "Starting simulation\n";
 
 		_tick = 1;
 
@@ -45,6 +47,11 @@ namespace sw
 
 		while (ctx.unitManager.hasActiveUnits())
 		{
+			if (_debugMode)
+			{
+				debugRender();
+			}
+
 			_tick++;
 
 			auto units = ctx.unitManager.getUnits();
@@ -69,7 +76,12 @@ namespace sw
 			}
 		}
 
-		std::cout << "Simulation finished. Ticks: " << ctx.tick << "\n";
+		std::cout << "Simulation finished\n";
+
+		if (_debugMode)
+		{
+			debugRender();
+		}
 	}
 
 	void Simulation::handleCreateMap(const io::CreateMap& cmd)
@@ -158,5 +170,42 @@ namespace sw
 				.y = static_cast<uint32_t>(startPos.y),
 				.targetX = cmd.targetX,
 				.targetY = cmd.targetY});
+	}
+
+	void Simulation::debugRender() const
+	{
+		assert(_map && "Map must be created before rendering");
+		const auto screenWidth = ftxui::Dimension::Fixed(_map->getWidth());
+		const auto screenHeight = ftxui::Dimension::Fixed(_map->getHeight());
+		auto screen = ftxui::Screen::Create(screenWidth, screenHeight);
+
+		for (int32_t x = 0; x < _map->getWidth(); ++x)
+		{
+			for (int32_t y = 0; y < _map->getHeight(); ++y)
+			{
+				const auto& unit = _map->unitAtPos({x, y});
+				auto& pixel = screen.PixelAt(x, y);
+
+				pixel.character = U' ';
+				pixel.foreground_color = ftxui::Color::Red;
+				pixel.background_color = ftxui::Color::RGB(0, 255, 0);
+				pixel.bold = true;
+
+				if (unit)
+				{
+					pixel.character = unit->getId() > 9 ? U'X' : U'0' + unit->getId();
+				}
+			}
+		}
+
+		screen.Print();
+		std::cout << "\nPress Enter to simulate turn...";
+		std::cin.get();
+		std::cout << screen.ResetPosition(true);
+		std::cout << "\x1B[1A";
+		std::cout << "\x1B[2K";
+		std::cout << "\x1B[1A";
+		std::cout << "\x1B[2K";
+		std::cout << std::flush;
 	}
 }

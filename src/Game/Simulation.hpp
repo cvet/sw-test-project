@@ -20,9 +20,10 @@ namespace sw
 	class Simulation
 	{
 	public:
-		explicit Simulation(EventLog& eventLog, uint32_t randomSeed) :
+		explicit Simulation(EventLog& eventLog, uint32_t randomSeed, bool debugMode) :
 				_eventLog(eventLog),
-				_random(randomSeed)
+				_random(randomSeed),
+				_debugMode(debugMode)
 		{}
 
 		void process(std::ifstream& file);
@@ -32,11 +33,13 @@ namespace sw
 		void handleSpawnSwordsman(const io::SpawnSwordsman& cmd);
 		void handleSpawnHunter(const io::SpawnHunter& cmd);
 		void handleMarch(const io::March& cmd);
+		void debugRender() const;
 
 		EventLog& _eventLog;
 		UnitManager _unitManager{};
 		std::unique_ptr<Map> _map{};
 		uint32_t _tick{};
 		Random _random;
+		bool _debugMode{};
 	};
 }
